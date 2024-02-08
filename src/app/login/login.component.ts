@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from '../auth.service';
 
 
 @Component({
@@ -7,5 +9,21 @@ import { Component } from '@angular/core';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-  
+  username: string = '';
+  password: string = '';
+  loginError: boolean = false;
+
+  constructor(private authService: AuthService, private router: Router) {}
+
+  login() {
+    const success = this.authService.login(this.username, this.password);
+
+    if (success) {
+      console.log('Login successful');
+      this.loginError = false;
+      this.router.navigate(['/dashboard']); 
+    } else {
+      this.loginError = true;
+    }
+  }
 }
